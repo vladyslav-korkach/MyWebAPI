@@ -1,0 +1,42 @@
+services:
+  mywebapi:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: mywebapi
+    environment:
+        - configuration=Debug
+        - ASPNETCORE_ENVIRONMENT=Development    
+        - ASPNETCORE_URLS=http://+:80
+        - DOTNET_USE_POLLING_FILE_WATCHER=1
+        - ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true
+        - ConnectionStrings__DefaultConnection=Server=mywebapi-mysql;Database=MyWebApiDb;User=root;Password=password;
+    ports:
+      - 8081:80
+    depends_on:
+      - mysql
+    volumes:
+      - myweb-api:/app:rw
+      - ~/.vsdbg:/remote_debugger:rw
+
+
+  mysql:
+    image: mysql:8.0
+    platform: linux/arm64/v8
+    container_name: mywebapi-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: MyWebApiDb
+    volumes:
+      - mywebapi-mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  myweb-api:
+  mywebapi-mysql-data:

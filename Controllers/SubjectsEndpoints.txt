@@ -1,0 +1,31 @@
+1. Get All Subjects
+GET /api/subjects
+curl -X GET http://localhost:5000/api/subjects
+
+
+2. Get a Specific Subject by ID
+GET /api/subjects/{id}
+curl -X GET http://localhost:5000/api/subjects/1
+
+
+3. Create a New Subject
+POST /api/subjects
+curl -X POST http://localhost:5000/api/subjects \
+-H "Content-Type: application/json" \
+-d '{"name":"History"}'
+
+4. Update an Existing Subject
+PUT /api/subjects/{id}
+curl -X PUT http://localhost:5000/api/subjects/1 \
+-H "Content-Type: application/json" \
+-d '{"id":1,"name":"UpdatedSubject"}'
+
+5. Delete a Subject
+DELETE /api/subjects/{id}
+curl -X DELETE http://localhost:5000/api/subjects/1
+
+GET /api/subjects: Retrieves a list of all subjects.
+GET /api/subjects/{id}: Retrieves a specific subject by its ID.
+POST /api/subjects: Creates a new subject.
+PUT /api/subjects/{id}: Updates an existing subject.
+DELETE /api/subjects/{id}: Deletes a subject by its ID.
